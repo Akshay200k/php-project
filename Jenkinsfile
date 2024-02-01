@@ -17,15 +17,17 @@ pipeline {
         }
         stage('Docker login') {
     steps {
-        withCredentials([usernamePassword(credentialsId: 'doc_cred', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-            // Encode the password using base64
-            def encodedPassword = sh(script: "echo -n $PASS | base64", returnStdout: true).trim()
+        script {
+            withCredentials([usernamePassword(credentialsId: 'doc_cred', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                // Encode the password using base64
+                def encodedPassword = sh(script: "echo -n $PASS | base64", returnStdout: true).trim()
 
-            // Login to Docker registry using the encoded password
-            sh "echo \"$encodedPassword\" | docker login -u $USER --password-stdin"
+                // Login to Docker registry using the encoded password
+                sh "echo \"$encodedPassword\" | docker login -u $USER --password-stdin"
 
-            // Continue with other Docker-related steps
-            sh 'docker push akshayk170/php:v1'
+                // Continue with other Docker-related steps
+                sh 'docker push akshayk170/php:v1'
+            }
         }
     }
 }
