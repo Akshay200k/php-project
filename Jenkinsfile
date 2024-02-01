@@ -16,13 +16,23 @@ pipeline {
             }
         }
          stage('Docker login') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'doc_cred', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                    sh "echo $PASS | docker login -u $USER --password-stdin"
-                    sh 'docker push akshayk170/php:v1'
-                }
+    steps {
+        withCredentials([usernamePassword(credentialsId: 'doc_cred', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+            script {
+                // Use a heredoc to securely pass the password to docker login
+                sh(script: '''
+                    docker login -u $USER --password-stdin <<EOF
+                    $PASS
+                    EOF
+                ''', returnStatus: true)
+                
+                // Continue with other Docker-related steps
+                sh 'docker push akshayk170/php:v1'
             }
         }
+    }
+}
+
         
      stage('Deploy') {
             steps {
