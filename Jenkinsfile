@@ -27,7 +27,7 @@ pipeline {
                 ''', returnStatus: true)
                 
                 // Continue with other Docker-related steps
-                sh 'docker push akshayk170/php:v1'
+                sh 'docker push Akshayk170/php:v1'
             }
         }
     }
