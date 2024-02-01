@@ -17,10 +17,11 @@ pipeline {
         }
         stage('Docker login') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'doc_cred', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                    sh "echo $PASS | docker login -u $USER --password-stdin"
-                    sh 'docker push akshayk170/php:v1'
-                }
+               withCredentials([usernamePassword(credentialsId: 'doc_cred', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+    def encodedPassword = sh(script: "echo -n $PASS | base64", returnStdout: true).trim()
+    sh "echo $encodedPassword | docker login -u $USER --password-stdin"
+    sh 'docker push akshayk170/php:v1'
+}
             }
         }
 
