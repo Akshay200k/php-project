@@ -18,8 +18,8 @@ pipeline {
           stage('Docker login') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'doc-cred', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                    sh "echo $PASS | sudo docker login -u $USER --password-stdin"
-                    sh 'sudo docker push akshayk170/php:v1'
+                    sh "echo $PASS | docker login -u $USER --password-stdin"
+                    sh 'docker push akshayk170/php:v1'
                 }
             }
         }
