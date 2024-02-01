@@ -10,16 +10,16 @@ pipeline {
         stage('Build docker image'){
             steps{
                 script{
-                    sh 'docker build -t akshu20791/2febimg:v1 .'
+                    sh 'docker build -t akshayk170/php:v1 .'
                     sh 'docker images'
                 }
             }
         }
           stage('Docker login') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-pwd', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                withCredentials([usernamePassword(credentialsId: 'doc-cred', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     sh "echo $PASS | docker login -u $USER --password-stdin"
-                    sh 'docker push akshu20791/2febimg:v1'
+                    sh 'docker push akshayk170/php:v1'
                 }
             }
         }
