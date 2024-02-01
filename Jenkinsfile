@@ -10,8 +10,8 @@ pipeline {
         stage('Build docker image'){
             steps{
                 script{
-                    sh 'sudo docker build -t akshayk170/php:v1 .'
-                    sh 'sudo docker images'
+                    sh 'docker build -t akshayk170/php:v1 .'
+                    sh 'docker images'
                 }
             }
         }
